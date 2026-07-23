@@ -4,14 +4,14 @@ import { checkValidData } from '../utils/validate';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '../utils/firebase';
 import { addUser } from "../utils/userSlice";
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
+import { USER_AVATAR, BG_IMAGE } from '../utils/constants';
 
 const Login = () => {
 
     const [isSignInForm, setIsSignInForm] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
-    const navigate = useNavigate();
+    
     const dispatch = useDispatch();
 
     const email = useRef(null);
@@ -34,7 +34,7 @@ const Login = () => {
                     const user = userCredential.user;
                     updateProfile(user, {
                         displayName: name.current.value,
-                        photoURL: "https://occ-0-6247-2164.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABdpkabKqQAxyWzo6QW_ZnPz1IZLqlmNfK-t4L1VIeV1DY00JhLo_LMVFp936keDxj-V5UELAVJrU--iUUY2MaDxQSSO-0qw.png?r=e6e"
+                        photoURL: USER_AVATAR
                     }).then(() => {
                         const { uid, email, displayName, photoURL } = auth.currentUser;
                         dispatch(
@@ -45,7 +45,6 @@ const Login = () => {
                                 photoURL: photoURL,
                             })
                         );
-                        navigate('/browse');
                     }).catch((error) => {
                         setErrorMessage(error.message);
                     })
@@ -61,7 +60,6 @@ const Login = () => {
                 .then((userCredential) => {
                     const user = userCredential.user;
                     console.log(user);
-                    navigate("/browse");
                 })
                 .catch((error) => {
                     const errorCode = error.code;
@@ -78,7 +76,7 @@ const Login = () => {
             <div className='absolute'>
                 <img 
                     className='w-full h-full object-cover'
-                    src="https://assets.nflxext.com/ffe/siteui/vlv3/ffa9d590-69c5-406f-bff9-e2ced3baa6ad/web/IN-en-20260713-TRIFECTA-perspective_75c0557e-9bbb-4149-9913-b87d4d7a30b7_large.jpg"
+                    src={BG_IMAGE}
                     alt="logo"
                 />
             </div>
